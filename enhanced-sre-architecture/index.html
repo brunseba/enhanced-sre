@@ -1,0 +1,1689 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="MCP-Augmented Azure Landing Zone — Architecture, Implementation Guides &amp; LibreChat Integration" name="description"/>
+<meta content="brun_s" name="author"/>
+<link href=".." rel="prev"/>
+<link href="../phase1-observability-documentation/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
+<title>SRE Ecosystem Overview - Enhanced SRE Ecosystem</title>
+<link href="../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#enhanced-sre-ecosystem-mcp-augmented-azure-landing-zone">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Enhanced SRE Ecosystem" class="md-header__button md-logo" data-md-component="logo" href=".." title="Enhanced SRE Ecosystem">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Enhanced SRE Ecosystem
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              SRE Ecosystem Overview
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="blue" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brun_s/enhanced-sre" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    enhanced-sre
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="..">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+</li>
+<li class="md-tabs__item md-tabs__item--active">
+<a class="md-tabs__link" href="./">
+          
+  
+  
+  Architecture
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../phase1-observability-documentation/">
+          
+  
+  
+  Implementation Guides
+
+        </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Enhanced SRE Ecosystem" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Enhanced SRE Ecosystem">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Enhanced SRE Ecosystem
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/brun_s/enhanced-sre" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    enhanced-sre
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    SRE Ecosystem Overview
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    SRE Ecosystem Overview
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-vision">
+<span class="md-ellipsis">
+      
+        1. Vision
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-ecosystem-components">
+<span class="md-ellipsis">
+      
+        2. Ecosystem Components
+      
+    </span>
+</a>
+<nav aria-label="2. Ecosystem Components" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21-azure-landing-zone-stack">
+<span class="md-ellipsis">
+      
+        2.1 Azure Landing Zone Stack
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22-mcp-client-environments-ai-hosts">
+<span class="md-ellipsis">
+      
+        2.2 MCP Client Environments (AI Hosts)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#23-mcp-server-inventory">
+<span class="md-ellipsis">
+      
+        2.3 MCP Server Inventory
+      
+    </span>
+</a>
+<nav aria-label="2.3 MCP Server Inventory" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#core-mcp-servers-from-curated-list">
+<span class="md-ellipsis">
+      
+        Core MCP Servers (from curated list)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ecosystem-mcp-servers-existing-servers-for-ecosystem-components">
+<span class="md-ellipsis">
+      
+        Ecosystem MCP Servers (existing servers for ecosystem components)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-architecture-overview">
+<span class="md-ellipsis">
+      
+        3. Architecture Overview
+      
+    </span>
+</a>
+<nav aria-label="3. Architecture Overview" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#31-ecosystem-coverage-map">
+<span class="md-ellipsis">
+      
+        3.1 Ecosystem Coverage Map
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#4-mcp-server-capabilities">
+<span class="md-ellipsis">
+      
+        4. MCP Server Capabilities
+      
+    </span>
+</a>
+<nav aria-label="4. MCP Server Capabilities" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#41-azure-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.1 Azure MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#42-terraform-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.2 Terraform MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#43-gitlab-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.3 GitLab MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#44-sonarqube-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.4 SonarQube MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#45-atlassian-rovo-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.5 Atlassian Rovo MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#46-aks-mcp-server-ecosystem">
+<span class="md-ellipsis">
+      
+        4.6 AKS MCP Server (Ecosystem)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#47-argocd-mcp-server-ecosystem">
+<span class="md-ellipsis">
+      
+        4.7 ArgoCD MCP Server (Ecosystem)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#48-kubernetes-mcp-server-ecosystem">
+<span class="md-ellipsis">
+      
+        4.8 Kubernetes MCP Server (Ecosystem)
+      
+    </span>
+</a>
+<nav aria-label="4.8 Kubernetes MCP Server (Ecosystem)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#azure-service-operator-aso-v2-integration-note">
+<span class="md-ellipsis">
+      
+        Azure Service Operator (ASO v2) — Integration Note
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#5-sre-workflows-enhanced-by-mcp">
+<span class="md-ellipsis">
+      
+        5. SRE Workflows Enhanced by MCP
+      
+    </span>
+</a>
+<nav aria-label="5. SRE Workflows Enhanced by MCP" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#51-incident-response">
+<span class="md-ellipsis">
+      
+        5.1 Incident Response
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#52-infrastructure-provisioning">
+<span class="md-ellipsis">
+      
+        5.2 Infrastructure Provisioning
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#53-continuous-quality-security">
+<span class="md-ellipsis">
+      
+        5.3 Continuous Quality &amp; Security
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#54-architecture-documentation">
+<span class="md-ellipsis">
+      
+        5.4 Architecture Documentation
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#6-security-model">
+<span class="md-ellipsis">
+      
+        6. Security Model
+      
+    </span>
+</a>
+<nav aria-label="6. Security Model" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#61-authentication-per-mcp-server">
+<span class="md-ellipsis">
+      
+        6.1 Authentication per MCP Server
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#62-safety-controls">
+<span class="md-ellipsis">
+      
+        6.2 Safety Controls
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#7-deployment-topology">
+<span class="md-ellipsis">
+      
+        7. Deployment Topology
+      
+    </span>
+</a>
+<nav aria-label="7. Deployment Topology" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#71-mcp-client-setup">
+<span class="md-ellipsis">
+      
+        7.1 MCP Client Setup
+      
+    </span>
+</a>
+<nav aria-label="7.1 MCP Client Setup" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vs-code-copilot-agent-mode">
+<span class="md-ellipsis">
+      
+        VS Code — Copilot Agent Mode
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#github-copilot-cli">
+<span class="md-ellipsis">
+      
+        GitHub Copilot CLI
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#72-mcp-server-configuration-shared-across-clients">
+<span class="md-ellipsis">
+      
+        7.2 MCP Server Configuration (shared across clients)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#8-recommended-phased-adoption">
+<span class="md-ellipsis">
+      
+        8. Recommended Phased Adoption
+      
+    </span>
+</a>
+<nav aria-label="8. Recommended Phased Adoption" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-1-observability-documentation-low-risk">
+<span class="md-ellipsis">
+      
+        Phase 1 — Observability &amp; Documentation (Low Risk)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-2-iac-quality-medium-risk">
+<span class="md-ellipsis">
+      
+        Phase 2 — IaC &amp; Quality (Medium Risk)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-3-delivery-operations-higher-risk-controlled">
+<span class="md-ellipsis">
+      
+        Phase 3 — Delivery &amp; Operations (Higher Risk, Controlled)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#9-key-benefits">
+<span class="md-ellipsis">
+      
+        9. Key Benefits
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Implementation Guides
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementation Guides
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../phase1-observability-documentation/">
+<span class="md-ellipsis">
+    
+  
+    Phase 1 — Observability &amp; Documentation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../phase2-iac-quality/">
+<span class="md-ellipsis">
+    
+  
+    Phase 2 — IaC &amp; Quality
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../phase3-delivery-operations/">
+<span class="md-ellipsis">
+    
+  
+    Phase 3 — Delivery &amp; Operations
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#1-vision">
+<span class="md-ellipsis">
+      
+        1. Vision
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#2-ecosystem-components">
+<span class="md-ellipsis">
+      
+        2. Ecosystem Components
+      
+    </span>
+</a>
+<nav aria-label="2. Ecosystem Components" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21-azure-landing-zone-stack">
+<span class="md-ellipsis">
+      
+        2.1 Azure Landing Zone Stack
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22-mcp-client-environments-ai-hosts">
+<span class="md-ellipsis">
+      
+        2.2 MCP Client Environments (AI Hosts)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#23-mcp-server-inventory">
+<span class="md-ellipsis">
+      
+        2.3 MCP Server Inventory
+      
+    </span>
+</a>
+<nav aria-label="2.3 MCP Server Inventory" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#core-mcp-servers-from-curated-list">
+<span class="md-ellipsis">
+      
+        Core MCP Servers (from curated list)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ecosystem-mcp-servers-existing-servers-for-ecosystem-components">
+<span class="md-ellipsis">
+      
+        Ecosystem MCP Servers (existing servers for ecosystem components)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#3-architecture-overview">
+<span class="md-ellipsis">
+      
+        3. Architecture Overview
+      
+    </span>
+</a>
+<nav aria-label="3. Architecture Overview" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#31-ecosystem-coverage-map">
+<span class="md-ellipsis">
+      
+        3.1 Ecosystem Coverage Map
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#4-mcp-server-capabilities">
+<span class="md-ellipsis">
+      
+        4. MCP Server Capabilities
+      
+    </span>
+</a>
+<nav aria-label="4. MCP Server Capabilities" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#41-azure-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.1 Azure MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#42-terraform-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.2 Terraform MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#43-gitlab-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.3 GitLab MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#44-sonarqube-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.4 SonarQube MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#45-atlassian-rovo-mcp-server-core">
+<span class="md-ellipsis">
+      
+        4.5 Atlassian Rovo MCP Server (Core)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#46-aks-mcp-server-ecosystem">
+<span class="md-ellipsis">
+      
+        4.6 AKS MCP Server (Ecosystem)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#47-argocd-mcp-server-ecosystem">
+<span class="md-ellipsis">
+      
+        4.7 ArgoCD MCP Server (Ecosystem)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#48-kubernetes-mcp-server-ecosystem">
+<span class="md-ellipsis">
+      
+        4.8 Kubernetes MCP Server (Ecosystem)
+      
+    </span>
+</a>
+<nav aria-label="4.8 Kubernetes MCP Server (Ecosystem)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#azure-service-operator-aso-v2-integration-note">
+<span class="md-ellipsis">
+      
+        Azure Service Operator (ASO v2) — Integration Note
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#5-sre-workflows-enhanced-by-mcp">
+<span class="md-ellipsis">
+      
+        5. SRE Workflows Enhanced by MCP
+      
+    </span>
+</a>
+<nav aria-label="5. SRE Workflows Enhanced by MCP" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#51-incident-response">
+<span class="md-ellipsis">
+      
+        5.1 Incident Response
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#52-infrastructure-provisioning">
+<span class="md-ellipsis">
+      
+        5.2 Infrastructure Provisioning
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#53-continuous-quality-security">
+<span class="md-ellipsis">
+      
+        5.3 Continuous Quality &amp; Security
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#54-architecture-documentation">
+<span class="md-ellipsis">
+      
+        5.4 Architecture Documentation
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#6-security-model">
+<span class="md-ellipsis">
+      
+        6. Security Model
+      
+    </span>
+</a>
+<nav aria-label="6. Security Model" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#61-authentication-per-mcp-server">
+<span class="md-ellipsis">
+      
+        6.1 Authentication per MCP Server
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#62-safety-controls">
+<span class="md-ellipsis">
+      
+        6.2 Safety Controls
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#7-deployment-topology">
+<span class="md-ellipsis">
+      
+        7. Deployment Topology
+      
+    </span>
+</a>
+<nav aria-label="7. Deployment Topology" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#71-mcp-client-setup">
+<span class="md-ellipsis">
+      
+        7.1 MCP Client Setup
+      
+    </span>
+</a>
+<nav aria-label="7.1 MCP Client Setup" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#vs-code-copilot-agent-mode">
+<span class="md-ellipsis">
+      
+        VS Code — Copilot Agent Mode
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#github-copilot-cli">
+<span class="md-ellipsis">
+      
+        GitHub Copilot CLI
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#72-mcp-server-configuration-shared-across-clients">
+<span class="md-ellipsis">
+      
+        7.2 MCP Server Configuration (shared across clients)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#8-recommended-phased-adoption">
+<span class="md-ellipsis">
+      
+        8. Recommended Phased Adoption
+      
+    </span>
+</a>
+<nav aria-label="8. Recommended Phased Adoption" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-1-observability-documentation-low-risk">
+<span class="md-ellipsis">
+      
+        Phase 1 — Observability &amp; Documentation (Low Risk)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-2-iac-quality-medium-risk">
+<span class="md-ellipsis">
+      
+        Phase 2 — IaC &amp; Quality (Medium Risk)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#phase-3-delivery-operations-higher-risk-controlled">
+<span class="md-ellipsis">
+      
+        Phase 3 — Delivery &amp; Operations (Higher Risk, Controlled)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#9-key-benefits">
+<span class="md-ellipsis">
+      
+        9. Key Benefits
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="enhanced-sre-ecosystem-mcp-augmented-azure-landing-zone">Enhanced SRE Ecosystem — MCP-Augmented Azure Landing Zone<a class="headerlink" href="#enhanced-sre-ecosystem-mcp-augmented-azure-landing-zone" title="Permanent link">¶</a></h1>
+<h2 id="1-vision">1. Vision<a class="headerlink" href="#1-vision" title="Permanent link">¶</a></h2>
+<p>Leverage Model Context Protocol (MCP) servers to create an AI-assisted SRE ecosystem that unifies infrastructure management, code quality, GitOps delivery, project tracking, and documentation across an Azure Landing Zone.</p>
+<p>MCP acts as a <strong>universal bridge</strong> between AI agents and operational tools, enabling natural language interaction with every layer of the stack.</p>
+<hr/>
+<h2 id="2-ecosystem-components">2. Ecosystem Components<a class="headerlink" href="#2-ecosystem-components" title="Permanent link">¶</a></h2>
+<h3 id="21-azure-landing-zone-stack">2.1 Azure Landing Zone Stack<a class="headerlink" href="#21-azure-landing-zone-stack" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>┌──────────────────────────────────────────────────────┐
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>│                  Azure Landing Zone                   │
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>├──────────────────────────────────────────────────────┤
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>│  Compute    │ AKS (Kubernetes)                       │
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>│  PaaS       │ PostgreSQL, MySQL, WebApp, Event Hub   │
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>│  Network    │ APIM, App Gateway, WAF                 │
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>│  K8s-native │ Azure Service Operator (ASO v2)        │
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>│  Delivery   │ ArgoCD (GitOps), Hosted GitLab-CI      │
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>│  IaC        │ Terraform, ASO CRDs                    │
+<a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>│  Quality    │ SonarQube (self-hosted, Community Ed.)  │
+<a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>│  Tracking   │ Jira, Confluence (Atlassian)           │
+<a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>└──────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="22-mcp-client-environments-ai-hosts">2.2 MCP Client Environments (AI Hosts)<a class="headerlink" href="#22-mcp-client-environments-ai-hosts" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Client</th>
+<th>Role</th>
+<th>MCP Transport</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VS Code + GitHub Copilot</strong></td>
+<td>Primary IDE</td>
+<td>stdio / HTTP</td>
+<td>Day-to-day development, agent mode, inline MCP tool calls</td>
+</tr>
+<tr>
+<td><strong>GitHub Copilot CLI</strong></td>
+<td>Terminal AI assistant</td>
+<td>stdio</td>
+<td>Quick CLI-based queries, scriptable automation, SRE operations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-mcp-server-inventory">2.3 MCP Server Inventory<a class="headerlink" href="#23-mcp-server-inventory" title="Permanent link">¶</a></h3>
+<h4 id="core-mcp-servers-from-curated-list">Core MCP Servers (from curated list)<a class="headerlink" href="#core-mcp-servers-from-curated-list" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>MCP Server</th>
+<th>Source</th>
+<th>Primary SRE Domain</th>
+<th>Transport</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Azure MCP</strong></td>
+<td>Microsoft</td>
+<td>Cloud resource management, monitoring, diagnostics</td>
+<td>stdio / HTTP</td>
+</tr>
+<tr>
+<td><strong>Terraform MCP</strong></td>
+<td>HashiCorp</td>
+<td>IaC documentation, registry, workspace management</td>
+<td>stdio / HTTP</td>
+</tr>
+<tr>
+<td><strong>GitLab MCP</strong></td>
+<td>GitLab</td>
+<td>CI/CD pipelines, merge requests, issues, code review</td>
+<td>HTTP (OAuth)</td>
+</tr>
+<tr>
+<td><strong>SonarQube MCP</strong></td>
+<td>SonarSource</td>
+<td>Code quality, security analysis, technical debt</td>
+<td>stdio (Docker)</td>
+</tr>
+<tr>
+<td><strong>Atlassian Rovo MCP</strong></td>
+<td>Atlassian</td>
+<td>Jira issues/epics, Confluence pages, search</td>
+<td>HTTP (OAuth)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ecosystem-mcp-servers-existing-servers-for-ecosystem-components">Ecosystem MCP Servers (existing servers for ecosystem components)<a class="headerlink" href="#ecosystem-mcp-servers-existing-servers-for-ecosystem-components" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>MCP Server</th>
+<th>Source</th>
+<th>Ecosystem Component</th>
+<th>Transport</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AKS MCP</strong></td>
+<td><a href="https://github.com/Azure/aks-mcp">Azure/aks-mcp</a></td>
+<td>AKS cluster ops, network, fleet, diagnostics</td>
+<td>stdio / HTTP</td>
+</tr>
+<tr>
+<td><strong>ArgoCD MCP</strong></td>
+<td><a href="https://github.com/argoproj-labs/mcp-for-argocd">argoproj-labs/mcp-for-argocd</a></td>
+<td>GitOps delivery, app sync, rollback, resource tree</td>
+<td>stdio / HTTP</td>
+</tr>
+<tr>
+<td><strong>Kubernetes MCP</strong></td>
+<td><a href="https://github.com/containers/kubernetes-mcp-server">containers/kubernetes-mcp-server</a></td>
+<td>Generic K8s CRUD, Helm, pod ops, events</td>
+<td>stdio / HTTP</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total: 8 MCP servers</strong> (5 core + 3 ecosystem)</p>
+<hr/>
+<h2 id="3-architecture-overview">3. Architecture Overview<a class="headerlink" href="#3-architecture-overview" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>flowchart TB
+    subgraph AI["AI Agent Layer"]
+        VSCode["VS Code<br/>+ GitHub Copilot"]
+        CopilotCLI["GitHub Copilot CLI"]
+    end
+
+    subgraph MCP["MCP Server Layer"]
+        direction LR
+        subgraph Core["Core (curated list)"]
+            AzMCP["Azure MCP<br/>☁️ Cloud Mgmt"]
+            TfMCP["Terraform MCP<br/>📐 IaC"]
+            GlMCP["GitLab MCP<br/>🔀 CI/CD"]
+            SqMCP["SonarQube MCP<br/>🛡️ Quality"]
+            AtMCP["Atlassian MCP<br/>📋 Tracking"]
+        end
+        subgraph Eco["Ecosystem extensions"]
+            AKSMCP["AKS MCP<br/>☸️ K8s Ops"]
+            ArgoMCP["ArgoCD MCP<br/>🔄 GitOps"]
+            K8sMCP["Kubernetes MCP<br/>⚙️ Runtime"]
+        end
+    end
+
+    subgraph Infra["Azure Landing Zone"]
+        direction TB
+        AKS["AKS Clusters<br/>+ ASO v2 Operator"]
+        PaaS["Azure PaaS<br/>(DB, EventHub, APIM)"]
+        Net["Networking<br/>(AppGW, WAF, VNet)"]
+        ArgoCD["ArgoCD GitOps"]
+        GitLab["Hosted GitLab-CI"]
+        Sonar["SonarQube<br/>(Community Ed.)"]
+        TFCloud["Terraform State"]
+        Jira["Jira / Confluence"]
+    end
+
+    VSCode --&gt; Core &amp; Eco
+    CopilotCLI --&gt; AzMCP &amp; TfMCP &amp; AKSMCP &amp; K8sMCP
+
+    AzMCP --&gt; PaaS &amp; Net
+    AKSMCP --&gt; AKS
+    TfMCP --&gt; TFCloud
+    ArgoMCP --&gt; ArgoCD
+    GlMCP --&gt; GitLab
+    SqMCP --&gt; Sonar
+    AtMCP --&gt; Jira
+    K8sMCP --&gt; AKS
+</code></pre>
+<h3 id="31-ecosystem-coverage-map">3.1 Ecosystem Coverage Map<a class="headerlink" href="#31-ecosystem-coverage-map" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Ecosystem Component</th>
+<th>Core MCP</th>
+<th>Ecosystem MCP</th>
+<th>Combined Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AKS (Kubernetes)</strong></td>
+<td>Azure MCP</td>
+<td>AKS MCP, Kubernetes MCP</td>
+<td>Azure MCP: resource-level mgmt, Monitor, Advisor. AKS MCP: cluster ops, fleet, VMSS, diagnostics. K8s MCP: native API CRUD, Helm, pod exec/logs</td>
+</tr>
+<tr>
+<td><strong>Azure PaaS</strong></td>
+<td>Azure MCP</td>
+<td>—</td>
+<td>40+ services: PostgreSQL, MySQL, WebApp, Event Hub, APIM, App Gateway, WAF, Key Vault, Storage</td>
+</tr>
+<tr>
+<td><strong>ASO v2</strong></td>
+<td>Azure MCP</td>
+<td>Kubernetes MCP</td>
+<td>Azure MCP: inspect provisioned Azure resources. K8s MCP: manage ASO CRDs via <code>kubectl apply</code></td>
+</tr>
+<tr>
+<td><strong>ArgoCD GitOps</strong></td>
+<td>—</td>
+<td>ArgoCD MCP</td>
+<td>App sync, rollback, resource tree, workload logs, cluster management</td>
+</tr>
+<tr>
+<td><strong>Hosted GitLab-CI</strong></td>
+<td>GitLab MCP</td>
+<td>—</td>
+<td>Projects, merge requests, issues, pipelines via OAuth</td>
+</tr>
+<tr>
+<td><strong>Terraform IaC</strong></td>
+<td>Terraform MCP</td>
+<td>—</td>
+<td>Registry docs, modules, providers, workspace management, runs, policy validation</td>
+</tr>
+<tr>
+<td><strong>SonarQube</strong></td>
+<td>SonarQube MCP</td>
+<td>—</td>
+<td>Quality gates, security analysis on self-hosted Community Edition</td>
+</tr>
+<tr>
+<td><strong>Jira / Confluence</strong></td>
+<td>Atlassian MCP</td>
+<td>—</td>
+<td>Issue tracking, epics, Confluence pages, Rovo semantic search</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="4-mcp-server-capabilities">4. MCP Server Capabilities<a class="headerlink" href="#4-mcp-server-capabilities" title="Permanent link">¶</a></h2>
+<h3 id="41-azure-mcp-server-core">4.1 Azure MCP Server (Core)<a class="headerlink" href="#41-azure-mcp-server-core" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: Cloud resource lifecycle, monitoring, diagnostics, best practices.</p>
+<ul>
+<li><strong>Azure resource management</strong>: List/create/update subscriptions, resource groups, storage accounts, Key Vault secrets, Cosmos DB, compute (VMs, VMSS, disks)</li>
+<li><strong>Terraform integration</strong>: AzureRM/AzAPI provider docs, Azure Verified Modules, resource export to Terraform, policy validation via conftest</li>
+<li><strong>Diagnostics</strong>: Azure Monitor metrics, resource health, App Insights KQL queries, Azure Advisor recommendations</li>
+<li><strong>Modes</strong>: namespace (default), consolidated (recommended for agents), all, single</li>
+<li><strong>Azure CLI generate</strong>: Generate Azure CLI commands from natural language intent</li>
+</ul>
+<h3 id="42-terraform-mcp-server-core">4.2 Terraform MCP Server (Core)<a class="headerlink" href="#42-terraform-mcp-server-core" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: Infrastructure as Code documentation, module discovery, workspace management.</p>
+<ul>
+<li><strong>Registry tools</strong>: Search/get providers, modules, policies with latest versions</li>
+<li><strong>HCP Terraform/Enterprise</strong>: Workspace CRUD, runs, variables, variable sets, tags, policy sets</li>
+<li><strong>Stacks</strong>: List and inspect Terraform Stacks for multi-environment rollouts</li>
+<li><strong>Security</strong>: Destructive ops disabled by default (<code>ENABLE_TF_OPERATIONS</code> flag)</li>
+</ul>
+<h3 id="43-gitlab-mcp-server-core">4.3 GitLab MCP Server (Core)<a class="headerlink" href="#43-gitlab-mcp-server-core" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: CI/CD pipeline management, code review, issue tracking on <strong>hosted GitLab</strong> instance.</p>
+<ul>
+<li><strong>Project access</strong>: Browse projects, issues, merge requests</li>
+<li><strong>API integration</strong>: Full GitLab API via OAuth 2.0 dynamic client registration</li>
+<li><strong>ArgoCD synergy</strong>: Manages the Git repositories and CI/CD pipelines that ArgoCD syncs from</li>
+<li><strong>Security</strong>: OAuth 2.0, prompt injection awareness</li>
+</ul>
+<h3 id="44-sonarqube-mcp-server-core">4.4 SonarQube MCP Server (Core)<a class="headerlink" href="#44-sonarqube-mcp-server-core" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: Code quality gates, security vulnerability detection, technical debt analysis.</p>
+<ul>
+<li><strong>Analysis</strong>: Code snippet analysis within agent context</li>
+<li><strong>Integration</strong>: Connects to a <strong>self-hosted SonarQube Community Edition</strong> instance</li>
+<li><strong>Docker-based</strong>: MCP server runs as <code>mcp/sonarqube</code> container image, connects via <code>SONARQUBE_URL</code></li>
+<li><strong>Authentication</strong>: Token-based, environment variable security best practices</li>
+<li><strong>Community Edition scope</strong>: Quality profiles, issues, hotspots, quality gates (branch analysis and advanced security features require higher editions)</li>
+</ul>
+<h3 id="45-atlassian-rovo-mcp-server-core">4.5 Atlassian Rovo MCP Server (Core)<a class="headerlink" href="#45-atlassian-rovo-mcp-server-core" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: Project management, documentation, cross-tool context.</p>
+<ul>
+<li><strong>Rovo search</strong>: Semantic search across Jira and Confluence</li>
+<li><strong>Jira</strong>: Create/link epics and issues in correct projects</li>
+<li><strong>Confluence</strong>: Create/update pages with generated specs or summaries</li>
+<li><strong>Enterprise</strong>: Admin controls, audit logs, MCP client allow-lists</li>
+</ul>
+<h3 id="46-aks-mcp-server-ecosystem">4.6 AKS MCP Server (Ecosystem)<a class="headerlink" href="#46-aks-mcp-server-ecosystem" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: AKS-specific operations, diagnostics, network, fleet management.</p>
+<ul>
+<li><strong>Unified tools</strong>: <code>call_az</code> for Azure CLI, <code>call_kubectl</code> for Kubernetes ops</li>
+<li><strong>Network resources</strong>: VNet, Subnet, NSG, Route Table, Load Balancer, Private Endpoint</li>
+<li><strong>Monitoring</strong>: Metrics, resource health, App Insights, control plane logs, diagnostic detectors</li>
+<li><strong>Fleet management</strong>: Multi-cluster operations, update runs, ClusterResourcePlacement</li>
+<li><strong>Compute</strong>: VMSS info, node logs collection, VM operations</li>
+<li><strong>Access levels</strong>: readonly (default), readwrite, admin</li>
+</ul>
+<h3 id="47-argocd-mcp-server-ecosystem">4.7 ArgoCD MCP Server (Ecosystem)<a class="headerlink" href="#47-argocd-mcp-server-ecosystem" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: GitOps delivery lifecycle, application management, troubleshooting.</p>
+<ul>
+<li><strong>Application management</strong>: List, get, create, update, delete, sync applications</li>
+<li><strong>Resource inspection</strong>: Resource tree, managed resources, workload logs, events</li>
+<li><strong>Resource actions</strong>: Get and run available actions on resources</li>
+<li><strong>Cluster management</strong>: List registered clusters</li>
+<li><strong>Safety</strong>: Read-only mode available (<code>MCP_READ_ONLY=true</code>)</li>
+</ul>
+<h3 id="48-kubernetes-mcp-server-ecosystem">4.8 Kubernetes MCP Server (Ecosystem)<a class="headerlink" href="#48-kubernetes-mcp-server-ecosystem" title="Permanent link">¶</a></h3>
+<p><strong>Role</strong>: Direct Kubernetes API interaction, Helm, cross-cluster operations.</p>
+<ul>
+<li><strong>Native Go implementation</strong>: No kubectl dependency, direct K8s API interaction</li>
+<li><strong>Resource management</strong>: CRUD on any K8s/OpenShift resource (including ASO CRDs)</li>
+<li><strong>Pod operations</strong>: Logs, exec, top, run</li>
+<li><strong>Helm</strong>: Install, list, uninstall charts</li>
+<li><strong>Observability</strong>: OpenTelemetry tracing and metrics</li>
+</ul>
+<h4 id="azure-service-operator-aso-v2-integration-note">Azure Service Operator (ASO v2) — Integration Note<a class="headerlink" href="#azure-service-operator-aso-v2-integration-note" title="Permanent link">¶</a></h4>
+<p>ASO v2 is a <strong>Kubernetes operator</strong> (not an MCP server) that provisions Azure resources via <code>kubectl apply</code> using CRDs. It is manageable through both the <strong>Kubernetes MCP</strong> and <strong>AKS MCP</strong> servers:</p>
+<ul>
+<li><strong>Create/update/delete ASO resources</strong>: via Kubernetes MCP (<code>apply_manifest</code>) or AKS MCP (<code>call_kubectl</code>)</li>
+<li><strong>Inspect ASO resource status</strong>: via Kubernetes MCP (<code>get_resource</code>) — ASO exposes Azure state in the CRD <code>.status</code> field</li>
+<li><strong>Combined with KRO</strong> (Kubernetes Resource Orchestrator): enables golden path abstractions orchestrating multiple ASO resources as a single CRD</li>
+</ul>
+<p>ASO covers 40+ Azure services as CRDs: ResourceGroup, ManagedCluster, PostgreSQL, MySQL, EventHub, APIM, AppGateway, StorageAccount, KeyVault, and more.</p>
+<hr/>
+<h2 id="5-sre-workflows-enhanced-by-mcp">5. SRE Workflows Enhanced by MCP<a class="headerlink" href="#5-sre-workflows-enhanced-by-mcp" title="Permanent link">¶</a></h2>
+<h3 id="51-incident-response">5.1 Incident Response<a class="headerlink" href="#51-incident-response" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    Alert["🚨 Alert"] --&gt; Diag["Diagnose<br/>(AKS MCP + K8s MCP)"]
+    Diag --&gt; Logs["Fetch Logs<br/>(ArgoCD MCP)"]
+    Logs --&gt; Correlate["Correlate<br/>(Azure MCP — Monitor)"]
+    Correlate --&gt; Ticket["Create Incident<br/>(Atlassian MCP)"]
+    Ticket --&gt; Fix["Push Fix<br/>(GitLab MCP)"]
+    Fix --&gt; Validate["Quality Gate<br/>(SonarQube MCP)"]
+</code></pre>
+<p><strong>Natural language workflow</strong>:
+1. <em>"What pods are degraded in the production AKS cluster?"</em> → AKS MCP / K8s MCP
+2. <em>"Show me the ArgoCD sync status for the payment-service app"</em> → ArgoCD MCP
+3. <em>"Query Log Analytics for errors in the last hour"</em> → Azure MCP
+4. <em>"Create a P1 Jira incident linked to the payment service Confluence page"</em> → Atlassian MCP
+5. <em>"Show me the latest merge requests on the payment-service repo"</em> → GitLab MCP
+6. <em>"Check the SonarQube quality gate for the hotfix branch"</em> → SonarQube MCP</p>
+<h3 id="52-infrastructure-provisioning">5.2 Infrastructure Provisioning<a class="headerlink" href="#52-infrastructure-provisioning" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    Plan["Plan<br/>(Terraform MCP)"] --&gt; Review["Code Review<br/>(GitLab MCP)"]
+    Review --&gt; Quality["Quality Gate<br/>(SonarQube MCP)"]
+    Quality --&gt; Deploy["Deploy<br/>(Azure MCP)"]
+    Deploy --&gt; Deliver["GitOps Sync<br/>(ArgoCD MCP)"]
+    Deliver --&gt; Track["Update Epic<br/>(Atlassian MCP)"]
+</code></pre>
+<p><strong>Natural language workflow</strong>:
+1. <em>"Show me the Terraform AzureRM docs for azurerm_kubernetes_cluster"</em> → Terraform MCP
+2. <em>"Search Azure Verified Modules for AKS"</em> → Terraform MCP
+3. <em>"Create a merge request for the infra changes"</em> → GitLab MCP
+4. <em>"Check SonarQube quality gate for the terraform-infra project"</em> → SonarQube MCP
+5. <em>"List my resource groups in subscription X"</em> → Azure MCP
+6. <em>"Sync the infrastructure ArgoCD app"</em> → ArgoCD MCP
+7. <em>"Update the Jira epic with deployment status"</em> → Atlassian MCP</p>
+<h3 id="53-continuous-quality-security">5.3 Continuous Quality &amp; Security<a class="headerlink" href="#53-continuous-quality-security" title="Permanent link">¶</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    Code["Code Push<br/>(GitLab MCP)"] --&gt; Scan["Security Scan<br/>(SonarQube MCP)"]
+    Scan --&gt; Policy["Policy Check<br/>(Terraform MCP)"]
+    Policy --&gt; Advisor["Azure Advisor<br/>(Azure MCP)"]
+    Advisor --&gt; Doc["Document Findings<br/>(Atlassian MCP)"]
+</code></pre>
+<h3 id="54-architecture-documentation">5.4 Architecture Documentation<a class="headerlink" href="#54-architecture-documentation" title="Permanent link">¶</a></h3>
+<p><strong>Natural language workflow</strong>:
+1. <em>"Find the latest incident postmortem for checkout failures"</em> → Atlassian MCP (Rovo search)
+2. <em>"List all AKS clusters and their network configuration"</em> → AKS MCP
+3. <em>"Export the production resource group to Terraform"</em> → Azure MCP (Terraform tools)
+4. <em>"Create a Confluence page with the current architecture state"</em> → Atlassian MCP</p>
+<hr/>
+<h2 id="6-security-model">6. Security Model<a class="headerlink" href="#6-security-model" title="Permanent link">¶</a></h2>
+<h3 id="61-authentication-per-mcp-server">6.1 Authentication per MCP Server<a class="headerlink" href="#61-authentication-per-mcp-server" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>MCP Server</th>
+<th>Auth Method</th>
+<th>Secret Management</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Azure MCP</td>
+<td>Entra ID / Azure CLI / Managed Identity</td>
+<td>Azure RBAC</td>
+</tr>
+<tr>
+<td>Terraform MCP</td>
+<td>TFE_TOKEN API token</td>
+<td>Environment variable</td>
+</tr>
+<tr>
+<td>GitLab MCP</td>
+<td>OAuth 2.0 Dynamic Client Registration</td>
+<td>OAuth flow</td>
+</tr>
+<tr>
+<td>SonarQube MCP</td>
+<td>User token</td>
+<td>Environment variable</td>
+</tr>
+<tr>
+<td>Atlassian MCP</td>
+<td>OAuth (Atlassian-hosted)</td>
+<td>Admin-controlled allow-list</td>
+</tr>
+<tr>
+<td>AKS MCP</td>
+<td>Azure CLI (<code>az login</code>)</td>
+<td>Environment variables</td>
+</tr>
+<tr>
+<td>ArgoCD MCP</td>
+<td>API token (Bearer)</td>
+<td>Environment variable</td>
+</tr>
+<tr>
+<td>Kubernetes MCP</td>
+<td>kubeconfig / ServiceAccount</td>
+<td>K8s RBAC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-safety-controls">6.2 Safety Controls<a class="headerlink" href="#62-safety-controls" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Read-only defaults</strong>: Azure MCP, AKS MCP (readonly access level), ArgoCD MCP (<code>MCP_READ_ONLY</code>)</li>
+<li><strong>Destructive op gating</strong>: Terraform MCP (<code>ENABLE_TF_OPERATIONS</code>), AKS MCP (access levels)</li>
+<li><strong>Elicitation</strong>: Azure MCP requires user confirmation for sensitive data (Key Vault secrets)</li>
+<li><strong>RBAC inheritance</strong>: AKS MCP inherits user's Azure RBAC and K8s RBAC permissions</li>
+<li><strong>Audit</strong>: Atlassian MCP provides usage logs; Azure MCP integrates with Azure activity logs</li>
+</ul>
+<hr/>
+<h2 id="7-deployment-topology">7. Deployment Topology<a class="headerlink" href="#7-deployment-topology" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>flowchart TB
+    subgraph Dev["Developer Workstation"]
+        VSCode2["VS Code + Copilot Agent Mode"]
+        CopilotCLI2["GitHub Copilot CLI"]
+        LocalMCP["8 MCP Servers<br/>(stdio / HTTP transport)"]
+        VSCode2 --&gt; LocalMCP
+        CopilotCLI2 --&gt; LocalMCP
+    end
+
+    subgraph Azure["Azure Landing Zone"]
+        subgraph AKS_Cluster["AKS Cluster"]
+            ArgoCD_Pod["ArgoCD"]
+            ASO["ASO v2 Operator"]
+            Apps["Workloads"]
+        end
+        AzPaaS["Azure PaaS Services"]
+        AzMonitor["Azure Monitor / Log Analytics"]
+    end
+
+    subgraph External["Hosted / SaaS Services"]
+        GitLabHosted["Hosted GitLab"]
+        SonarHost["SonarQube<br/>(self-hosted, Community Ed.)"]
+        AtlassianCloud["Atlassian Cloud"]
+        TFCloud["HCP Terraform"]
+    end
+
+    LocalMCP --&gt;|"Azure SDK / CLI"| Azure
+    LocalMCP --&gt;|"HTTPS / OAuth"| External
+</code></pre>
+<h3 id="71-mcp-client-setup">7.1 MCP Client Setup<a class="headerlink" href="#71-mcp-client-setup" title="Permanent link">¶</a></h3>
+<h4 id="vs-code-copilot-agent-mode">VS Code — Copilot Agent Mode<a class="headerlink" href="#vs-code-copilot-agent-mode" title="Permanent link">¶</a></h4>
+<p>VS Code with GitHub Copilot in <strong>Agent mode</strong> natively supports MCP servers. Configuration goes in <code>.vscode/mcp.json</code> (workspace) or User Settings JSON (global). All 8 MCP servers are available, with tool calls invoked inline during chat.</p>
+<h4 id="github-copilot-cli">GitHub Copilot CLI<a class="headerlink" href="#github-copilot-cli" title="Permanent link">¶</a></h4>
+<p>Copilot CLI supports MCP via the <code>/mcp add</code> command. Best suited for quick infrastructure queries, scriptable automation, and SRE operations from the terminal. Supports stdio transport.</p>
+<h3 id="72-mcp-server-configuration-shared-across-clients">7.2 MCP Server Configuration (shared across clients)<a class="headerlink" href="#72-mcp-server-configuration-shared-across-clients" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="p">{</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="nt">"azure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npx"</span><span class="p">,</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"-y"</span><span class="p">,</span><span class="w"> </span><span class="s2">"@azure/mcp@latest"</span><span class="p">,</span><span class="w"> </span><span class="s2">"server"</span><span class="p">,</span><span class="w"> </span><span class="s2">"start"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--mode"</span><span class="p">,</span><span class="w"> </span><span class="s2">"consolidated"</span><span class="p">]</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">    </span><span class="nt">"terraform"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"docker"</span><span class="p">,</span>
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"run"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-i"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--rm"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"TFE_TOKEN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"hashicorp/terraform-mcp-server"</span><span class="p">],</span>
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">        </span><span class="nt">"TFE_TOKEN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;token&gt;"</span>
+<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="w">      </span><span class="p">}</span>
+<a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="w">    </span><span class="nt">"gitlab"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http"</span><span class="p">,</span>
+<a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://gitlab.example.com/api/v4/mcp"</span>
+<a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="w">    </span><span class="nt">"sonarqube"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"docker"</span><span class="p">,</span>
+<a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"run"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--init"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-i"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--rm"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SONARQUBE_TOKEN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"-e"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SONARQUBE_URL"</span><span class="p">,</span><span class="w"> </span><span class="s2">"mcp/sonarqube"</span><span class="p">],</span>
+<a href="#__codelineno-1-21" id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-22" id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="w">        </span><span class="nt">"SONARQUBE_TOKEN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;token&gt;"</span><span class="p">,</span>
+<a href="#__codelineno-1-23" id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="w">        </span><span class="nt">"SONARQUBE_URL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;self-hosted-sonarqube-url&gt;"</span>
+<a href="#__codelineno-1-24" id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="w">      </span><span class="p">}</span>
+<a href="#__codelineno-1-25" id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-26" id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="w">    </span><span class="nt">"atlassian"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-27" id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http"</span><span class="p">,</span>
+<a href="#__codelineno-1-28" id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="w">      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://mcp.atlassian.com/v2/mcp"</span>
+<a href="#__codelineno-1-29" id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-30" id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="w">    </span><span class="nt">"aks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-31" id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aks-mcp"</span><span class="p">,</span>
+<a href="#__codelineno-1-32" id="__codelineno-1-32" name="__codelineno-1-32"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"--transport"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--access-level"</span><span class="p">,</span><span class="w"> </span><span class="s2">"readwrite"</span><span class="p">]</span>
+<a href="#__codelineno-1-33" id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-34" id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="w">    </span><span class="nt">"argocd"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-35" id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npx"</span><span class="p">,</span>
+<a href="#__codelineno-1-36" id="__codelineno-1-36" name="__codelineno-1-36"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"argocd-mcp@latest"</span><span class="p">,</span><span class="w"> </span><span class="s2">"stdio"</span><span class="p">],</span>
+<a href="#__codelineno-1-37" id="__codelineno-1-37" name="__codelineno-1-37"></a><span class="w">      </span><span class="nt">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-38" id="__codelineno-1-38" name="__codelineno-1-38"></a><span class="w">        </span><span class="nt">"ARGOCD_BASE_URL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;argocd_url&gt;"</span><span class="p">,</span>
+<a href="#__codelineno-1-39" id="__codelineno-1-39" name="__codelineno-1-39"></a><span class="w">        </span><span class="nt">"ARGOCD_API_TOKEN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;argocd_token&gt;"</span>
+<a href="#__codelineno-1-40" id="__codelineno-1-40" name="__codelineno-1-40"></a><span class="w">      </span><span class="p">}</span>
+<a href="#__codelineno-1-41" id="__codelineno-1-41" name="__codelineno-1-41"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-1-42" id="__codelineno-1-42" name="__codelineno-1-42"></a><span class="w">    </span><span class="nt">"kubernetes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-1-43" id="__codelineno-1-43" name="__codelineno-1-43"></a><span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npx"</span><span class="p">,</span>
+<a href="#__codelineno-1-44" id="__codelineno-1-44" name="__codelineno-1-44"></a><span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"-y"</span><span class="p">,</span><span class="w"> </span><span class="s2">"kubernetes-mcp-server@latest"</span><span class="p">]</span>
+<a href="#__codelineno-1-45" id="__codelineno-1-45" name="__codelineno-1-45"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-1-46" id="__codelineno-1-46" name="__codelineno-1-46"></a><span class="w">  </span><span class="p">}</span>
+<a href="#__codelineno-1-47" id="__codelineno-1-47" name="__codelineno-1-47"></a><span class="p">}</span>
+</code></pre></div>
+<hr/>
+<h2 id="8-recommended-phased-adoption">8. Recommended Phased Adoption<a class="headerlink" href="#8-recommended-phased-adoption" title="Permanent link">¶</a></h2>
+<h3 id="phase-1-observability-documentation-low-risk">Phase 1 — Observability &amp; Documentation (Low Risk)<a class="headerlink" href="#phase-1-observability-documentation-low-risk" title="Permanent link">¶</a></h3>
+<p>→ <strong><a href="../phase1-observability-documentation/">Implementation Guide</a></strong>
+- Deploy Azure MCP (read-only / consolidated mode) for resource discovery and monitoring
+- Deploy AKS MCP (readonly) for cluster health and diagnostics
+- Deploy Kubernetes MCP for pod logs and event inspection
+- Deploy Atlassian MCP for incident documentation and Rovo search</p>
+<h3 id="phase-2-iac-quality-medium-risk">Phase 2 — IaC &amp; Quality (Medium Risk)<a class="headerlink" href="#phase-2-iac-quality-medium-risk" title="Permanent link">¶</a></h3>
+<p>→ <strong><a href="../phase2-iac-quality/">Implementation Guide</a></strong>
+- Add Terraform MCP (registry tools only, no TFE_TOKEN) for documentation lookup
+- Add SonarQube MCP for quality gate monitoring on self-hosted Community Edition
+- Add GitLab MCP for merge request and pipeline status on hosted GitLab</p>
+<h3 id="phase-3-delivery-operations-higher-risk-controlled">Phase 3 — Delivery &amp; Operations (Higher Risk, Controlled)<a class="headerlink" href="#phase-3-delivery-operations-higher-risk-controlled" title="Permanent link">¶</a></h3>
+<p>→ <strong><a href="../phase3-delivery-operations/">Implementation Guide</a></strong>
+- Enable ArgoCD MCP for sync operations (with read-only mode first)
+- Enable Terraform MCP workspace management (with TFE_TOKEN)
+- Enable AKS MCP readwrite access level for scaling and updates
+- Enable Azure MCP write operations for resource management</p>
+<hr/>
+<h2 id="9-key-benefits">9. Key Benefits<a class="headerlink" href="#9-key-benefits" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Benefit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unified context</strong></td>
+<td>Single AI conversation spanning infra, code, delivery, and tracking via 8 MCP servers</td>
+</tr>
+<tr>
+<td><strong>Reduced MTTR</strong></td>
+<td>Incident diagnosis through correlated data from AKS MCP, Azure MCP, ArgoCD MCP</td>
+</tr>
+<tr>
+<td><strong>IaC acceleration</strong></td>
+<td>Real-time Terraform docs and Azure Verified Module discovery during authoring</td>
+</tr>
+<tr>
+<td><strong>Full GitOps visibility</strong></td>
+<td>ArgoCD MCP for delivery + GitLab MCP for pipelines + K8s MCP for runtime</td>
+</tr>
+<tr>
+<td><strong>K8s-native Azure mgmt</strong></td>
+<td>ASO v2 resources managed via Kubernetes MCP and AKS MCP</td>
+</tr>
+<tr>
+<td><strong>Audit trail</strong></td>
+<td>Every MCP action traced through native tool audit logs</td>
+</tr>
+<tr>
+<td><strong>Progressive safety</strong></td>
+<td>Read-only defaults with explicit opt-in for mutations</td>
+</tr>
+<tr>
+<td><strong>Knowledge capture</strong></td>
+<td>Auto-document decisions in Confluence from operational context</td>
+</tr>
+</tbody>
+</table>
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="Last update">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 10, 2026 18:54:51 UTC">June 10, 2026</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Created">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 10, 2026 18:54:51 UTC">June 10, 2026</span>
+</span>
+</aside>
+</article>
+</div>
+<script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/brun_s/enhanced-sre" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+window.mermaidConfig = {default: {
+    startOnLoad: false
+}};</script></body>
+</html>
