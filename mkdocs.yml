@@ -1,0 +1,85 @@
+site_name: Enhanced SRE Ecosystem
+site_description: MCP-Augmented Azure Landing Zone — Architecture, Implementation Guides & LibreChat Integration
+site_author: brun_s
+repo_url: https://github.com/brun_s/enhanced-sre
+repo_name: enhanced-sre
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: date
+  - mermaid2
+  # PDF export — requires WeasyPrint native libs (libgobject, pango, cairo)
+  # Enable with: ENABLE_PDF_EXPORT=1 mkdocs build
+  # Install deps on macOS: brew install pango gdk-pixbuf libffi
+  # - with-pdf:
+  #     author: brun_s
+  #     cover_title: Enhanced SRE Ecosystem
+  #     cover_subtitle: MCP-Augmented Azure Landing Zone
+  #     enabled_if_env: ENABLE_PDF_EXPORT
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Architecture:
+      - SRE Ecosystem Overview: enhanced-sre-architecture.md
+  - Implementation Guides:
+      - "Phase 1 — Observability & Documentation": phase1-observability-documentation.md
+      - "Phase 2 — IaC & Quality": phase2-iac-quality.md
+      - "Phase 3 — Delivery & Operations": phase3-delivery-operations.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/brun_s/enhanced-sre

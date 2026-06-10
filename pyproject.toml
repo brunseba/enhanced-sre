@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sre-mcp-toolkit"
+version = "0.1.0"
+description = "Integration toolkit for the Enhanced SRE Ecosystem — fetch MCP server versions"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "brun_s"},
+]
+dependencies = [
+    "click>=8.1",
+]
+
+[project.scripts]
+sre-mcp-toolkit = "sre_mcp_toolkit.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sre_mcp_toolkit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
